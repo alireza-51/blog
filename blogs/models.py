@@ -25,6 +25,9 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True)
 
+    def __str__(self) -> str:
+        return f'{self.title} by {self.author.first_name} {self.author.last_name}'
+
 
 class Comment(models.Model):
     post = models.ForeignKey(
@@ -51,3 +54,6 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='replies'
     )
+
+    def __str__(self) -> str:
+        return f'{self.author.first_name} {self.author.last_name} to {self.post.title} '
