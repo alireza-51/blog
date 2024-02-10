@@ -18,3 +18,23 @@ class PostAuthorOrCreateOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
 class CommentAuthor(permissions.IsAuthenticatedOrReadOnly):
     def has_object_permission(self, request, view, obj):
         return obj.author == request.user
+
+
+class UserAdminOrOwnerPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or request.user.is_staff:
+                return True
+            return obj == request.user
+        else:
+            return False
+
+
+class ProfileAdminOrOwnerPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or request.user.is_staff:
+                return True
+            return obj.user == request.user
+        else:
+            return False
