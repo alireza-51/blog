@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import viewsets, generics, permissions, response, status
 from blogs.models import Post, Tag, Comment
 
@@ -6,13 +7,13 @@ from utils.custom_permissions import PostAuthorOrCreateOrReadOnly, CommentAuthor
 
 class PostViewset(viewsets.ModelViewSet):
     serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    queryset = Post.objects.annotate(comments_count=Count('comments'))
     permission_classes = [PostAuthorOrCreateOrReadOnly]
 
 
 class CommentListCreate(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.filter(parent__isnull=True)
     permission_classes = []
 
     def list(self, request, post_id, *args, **kwargs):
