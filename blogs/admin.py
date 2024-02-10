@@ -12,10 +12,6 @@ class PostAdmin(admin.ModelAdmin):
         "title",
         "slug",
     )
-    # list_filter = (
-    #     "published",
-    #     "publish_date",
-    # )
     list_editable = (
         "title",
         "slug",
