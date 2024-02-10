@@ -55,5 +55,16 @@ class Comment(models.Model):
         related_name='replies'
     )
 
+    @property
+    def children(self):
+        return Comment.objects.filter(parent=self).order_by('-created')
+        # if ordering is on -date reverse will give latest first
+
+    @property
+    def is_parent(self):
+        if self.parent is None:
+            return True
+        return False
+
     def __str__(self) -> str:
         return f'{self.author.first_name} {self.author.last_name} to {self.post.title} '
