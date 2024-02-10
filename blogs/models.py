@@ -37,7 +37,7 @@ class Comment(models.Model):
         blank=False,
         related_name='comments'
     )
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
         null=False,
