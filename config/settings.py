@@ -35,6 +35,9 @@ INSTALLED_APPS = [
     'blogs.apps.BlogsConfig',
     'profiles.apps.ProfilesConfig',
 
+    # Third-Party Apps
+    'rest_framework',
+
     # Built-in Apps
     'django.contrib.admin',
     'django.contrib.auth',
