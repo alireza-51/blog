@@ -37,6 +37,8 @@ INSTALLED_APPS = [
 
     # Third-Party Apps
     'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 
     # Built-in Apps
     'django.contrib.admin',
@@ -139,3 +141,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# drf-spectacular settings
+
+SPECTACULAR_SETTINGS = {
+    'SWAGGER_UI_DIST': 'SIDECAR',  # shorthand to use the sidecar instead
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+}
