@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsAuthorOrCreateOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
+class PostAuthorOrCreateOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS + ['POST',]:
             return True
@@ -13,3 +13,8 @@ class IsAuthorOrCreateOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
             request.user and
             request.user.is_authenticated
         )
+    
+
+class CommentAuthor(permissions.IsAuthenticatedOrReadOnly):
+    def has_object_permission(self, request, view, obj):
+        return obj.author == request.user
