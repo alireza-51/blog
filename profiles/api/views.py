@@ -13,9 +13,9 @@ class ProfileRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return User.objects.all()
+            return Profile.objects.all()
         else:
-            return User.objects.filter(user=self.request.user)
+            return Profile.objects.filter(user=self.request.user)
         
 
 class CurrentProfileView(views.APIView):

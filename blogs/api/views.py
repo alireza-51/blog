@@ -12,7 +12,7 @@ class PostViewset(viewsets.ModelViewSet):
     lookup_field = 'slug'
 
     def perform_create(self, serializer):
-        serializer.save(author=self.user)
+        serializer.save(author=self.request.user)
 
 
 class CommentListCreate(generics.ListCreateAPIView):
@@ -32,16 +32,18 @@ class CommentListCreate(generics.ListCreateAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return response.Response(serializer.data)
     
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def perform_create(self, serializer, post_id):
+        serializer.save(author=self.request.user, post=Post.objects.get(id=post_id))
     
     def create(self, request, post_id, *args, **kwargs):
-        data = request.data
-        data.update({'post':post_id})
+        # data = request.data
+        # data._mutable = True
+        # data.update({'post_id':post_id})
+        # data._mutable = False
 
-        serializer = self.get_serializer(data=data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        self.perform_create(serializer, post_id)
         headers = self.get_success_headers(serializer.data)
         return response.Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
