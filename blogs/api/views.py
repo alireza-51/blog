@@ -11,6 +11,9 @@ class PostViewset(viewsets.ModelViewSet):
     permission_classes = [PostAuthorOrCreateOrReadOnly]
     lookup_field = 'slug'
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.user)
+
 
 class CommentListCreate(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
@@ -28,6 +31,9 @@ class CommentListCreate(generics.ListCreateAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return response.Response(serializer.data)
+    
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
     
     def create(self, request, post_id, *args, **kwargs):
         data = request.data
@@ -57,6 +63,8 @@ class CommentRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return response.Response(serializer.data)
 
+    def perform_update(self, serializer):
+        serializer.save(author=self.request.user)
 
 class TagViewset(viewsets.ModelViewSet):
     serializer_class = TagSerializer

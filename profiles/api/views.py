@@ -36,6 +36,9 @@ class ProfileCreateView(generics.CreateAPIView):
     permission_classes = []
     queryset = Profile.objects.all()
 
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
 
 class UsersRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
