@@ -10,6 +10,9 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = '__all__'
         read_only_fields = ['id', 'comments_count']
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class CommentSerializer(serializers.ModelSerializer):

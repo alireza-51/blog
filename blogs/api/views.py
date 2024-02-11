@@ -9,6 +9,7 @@ class PostViewset(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.annotate(comments_count=Count('comments'))
     permission_classes = [PostAuthorOrCreateOrReadOnly]
+    lookup_field = 'slug'
 
 
 class CommentListCreate(generics.ListCreateAPIView):
