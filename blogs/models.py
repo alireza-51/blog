@@ -25,6 +25,9 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True)
 
+    class Meta:
+        indexes = [models.Index(fields=['slug'])]
+
     def __str__(self) -> str:
         return f'{self.title} by {self.author.first_name} {self.author.last_name}'
 
